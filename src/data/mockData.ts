@@ -304,7 +304,7 @@ export const resources: Resource[] = [
     type: 'guide',
     category: 'Création',
     description: 'Tout ce qu\'il faut savoir pour créer son entreprise en France cette année.',
-    externalUrl: '#',
+    externalUrl: 'https://bpifrance-creation.fr/encyclopedie/etapes-creation-dune-entreprise',
     tags: ['création', 'guide', 'débutant']
   },
   {
@@ -313,7 +313,7 @@ export const resources: Resource[] = [
     type: 'template',
     category: 'Juridique',
     description: 'Statuts types pour une SASU avec clauses recommandées.',
-    downloadUrl: '#',
+    externalUrl: 'https://bpifrance-creation.fr/encyclopedie/structures-juridiques/societe-par-actions-simplifiee-sas-sasu/modeles-statuts-sasu',
     tags: ['statuts', 'SASU', 'juridique']
   },
   {
@@ -322,7 +322,7 @@ export const resources: Resource[] = [
     type: 'template',
     category: 'Business Plan',
     description: 'Modèle complet avec prévisionnel financier sur 3 ans.',
-    downloadUrl: '#',
+    externalUrl: 'https://bpifrance-creation.fr/encyclopedie/previsions-financieres-business-plan/etablir-business-plan',
     tags: ['business plan', 'financier', 'prévisionnel']
   },
   {
@@ -331,7 +331,7 @@ export const resources: Resource[] = [
     type: 'article',
     category: 'Fiscal',
     description: 'Comprendre la TVA, l\'IS et l\'IR pour les entrepreneurs.',
-    externalUrl: '#',
+    externalUrl: 'https://www.economie.gouv.fr/entreprises/impots-taxes-entreprises',
     tags: ['fiscalité', 'TVA', 'impôts']
   },
   {
@@ -340,8 +340,35 @@ export const resources: Resource[] = [
     type: 'template',
     category: 'Comptabilité',
     description: 'Facture aux normes avec toutes les mentions légales.',
-    downloadUrl: '#',
+    externalUrl: 'https://www.economie.gouv.fr/entreprises/facture-mentions-obligatoires',
     tags: ['facture', 'comptabilité', 'template']
+  },
+  {
+    id: '6',
+    title: 'Guide des aides à la création',
+    type: 'guide',
+    category: 'Financement',
+    description: 'Panorama complet des aides disponibles pour les créateurs d\'entreprise.',
+    externalUrl: 'https://www.iledefrance.fr/aides-regionales-creation-entreprise',
+    tags: ['aides', 'subventions', 'financement']
+  },
+  {
+    id: '7',
+    title: 'Checklist création SARL',
+    type: 'template',
+    category: 'Juridique',
+    description: 'Toutes les étapes pour créer votre SARL pas à pas.',
+    externalUrl: 'https://www.service-public.fr/professionnels-entreprises/vosdroits/F36412',
+    tags: ['SARL', 'création', 'checklist']
+  },
+  {
+    id: '8',
+    title: 'Étude de marché : méthodologie',
+    type: 'article',
+    category: 'Business Plan',
+    description: 'Comment réaliser une étude de marché efficace pour votre projet.',
+    externalUrl: 'https://bpifrance-creation.fr/encyclopedie/letude-marche/comment-faire-etude-marche',
+    tags: ['étude de marché', 'méthodologie', 'analyse']
   }
 ];
 
