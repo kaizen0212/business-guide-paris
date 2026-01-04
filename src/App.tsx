@@ -10,6 +10,8 @@ import LegalStatus from "./pages/LegalStatus";
 import Financing from "./pages/Financing";
 import AdminSteps from "./pages/AdminSteps";
 import Resources from "./pages/Resources";
+import BusinessPlan from "./pages/BusinessPlan";
+import Calendar from "./pages/Calendar";
 import { DashboardLayout } from "./components/layout/DashboardLayout";
 import NotFound from "./pages/NotFound";
 
@@ -26,12 +28,12 @@ const App = () => (
           <Route path="/dashboard" element={<DashboardLayout />}>
             <Route index element={<Dashboard />} />
             <Route path="project" element={<Project />} />
-            <Route path="business-plan" element={<Dashboard />} />
+            <Route path="business-plan" element={<BusinessPlan />} />
             <Route path="legal-status" element={<LegalStatus />} />
             <Route path="admin-steps" element={<AdminSteps />} />
             <Route path="financing" element={<Financing />} />
             <Route path="resources" element={<Resources />} />
-            <Route path="calendar" element={<Dashboard />} />
+            <Route path="calendar" element={<Calendar />} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>

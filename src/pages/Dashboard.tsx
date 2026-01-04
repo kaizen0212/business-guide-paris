@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
+import { ContactDialog } from '@/components/ContactDialog';
 
 const quickStats = [
   {
@@ -261,9 +262,11 @@ export default function Dashboard() {
             <p className="text-sm text-muted-foreground mt-2">
               Stéphanie Djegou est disponible pour vous accompagner dans votre projet.
             </p>
-            <Button variant="hero" size="sm" className="mt-4 w-full">
-              Prendre rendez-vous
-            </Button>
+            <ContactDialog>
+              <Button variant="hero" size="sm" className="mt-4 w-full">
+                Prendre rendez-vous
+              </Button>
+            </ContactDialog>
           </div>
         </motion.div>
       </div>
