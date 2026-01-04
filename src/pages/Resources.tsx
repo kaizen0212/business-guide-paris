@@ -3,12 +3,10 @@ import { motion } from 'framer-motion';
 import {
   FileText,
   Video,
-  Download,
   ExternalLink,
   BookOpen,
   Search,
   Star,
-  Filter,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -204,25 +202,16 @@ function ResourceGrid({
               </div>
 
               <div className="mt-4 pt-4 border-t border-border">
-                {resource.downloadUrl ? (
-                  <Button variant="outline" size="sm" className="w-full" asChild>
-                    <a href={resource.downloadUrl}>
-                      <Download size={14} />
-                      Télécharger
-                    </a>
-                  </Button>
-                ) : (
-                  <Button variant="outline" size="sm" className="w-full" asChild>
-                    <a
-                      href={resource.externalUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <ExternalLink size={14} />
-                      Accéder
-                    </a>
-                  </Button>
-                )}
+                <Button variant="outline" size="sm" className="w-full" asChild>
+                  <a
+                    href={resource.externalUrl || resource.downloadUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <ExternalLink size={14} />
+                    {resource.downloadUrl ? 'Télécharger' : 'Accéder'}
+                  </a>
+                </Button>
               </div>
             </Card>
           </motion.div>
