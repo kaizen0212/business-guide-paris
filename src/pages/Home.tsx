@@ -89,7 +89,7 @@ export default function Home() {
               
               <motion.div variants={fadeUp} className="flex flex-col sm:flex-row gap-4">
                 <Button variant="hero" size="xl" asChild>
-                  <Link to="/dashboard/project">
+                  <Link to="/auth">
                     Démarrer mon projet
                     <ArrowRight size={20} />
                   </Link>

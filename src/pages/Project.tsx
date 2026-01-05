@@ -15,9 +15,11 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Progress } from '@/components/ui/progress';
-import { CheckCircle, ArrowRight, ArrowLeft, Save, Download } from 'lucide-react';
+import { CheckCircle, ArrowRight, ArrowLeft, Save, Download, Loader2 } from 'lucide-react';
 import { sectors } from '@/data/mockData';
 import { toast } from 'sonner';
+import { supabase } from '@/integrations/supabase/client';
+import { exportProjectToPdf } from '@/utils/exportPdf';
 
 const personalInfoSchema = z.object({
   firstName: z.string().min(2, 'Prénom requis'),
@@ -60,6 +62,7 @@ const fadeVariants = {
 
 export default function Project() {
   const [currentStep, setCurrentStep] = useState(1);
+  const [saving, setSaving] = useState(false);
   const [formData, setFormData] = useState({
     personalInfo: { firstName: '', lastName: '', email: '', phone: '' },
     projectIdea: { name: '', description: '', sector: '', innovation: '' },
@@ -67,14 +70,36 @@ export default function Project() {
     resources: { team: '', initialBudget: '', materialNeeds: '' },
   });
 
-  // Load from localStorage on mount
+  // Load from localStorage and database on mount
   useEffect(() => {
-    const saved = localStorage.getItem('dos-project-data');
-    if (saved) {
-      const parsed = JSON.parse(saved);
-      setFormData(parsed);
-      toast.success('Données précédentes restaurées');
-    }
+    const loadData = async () => {
+      // First try localStorage
+      const saved = localStorage.getItem('dos-project-data');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        setFormData(parsed);
+      }
+
+      // Then try database
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) {
+        const { data: project } = await supabase
+          .from('projects')
+          .select('*')
+          .eq('user_id', session.user.id)
+          .order('updated_at', { ascending: false })
+          .limit(1)
+          .single();
+
+        if (project?.project_data) {
+          const dbData = project.project_data as typeof formData;
+          setFormData(dbData);
+          setCurrentStep(project.current_step || 1);
+          localStorage.setItem('dos-project-data', JSON.stringify(dbData));
+        }
+      }
+    };
+    loadData();
   }, []);
 
   // Save to localStorage on change
@@ -84,15 +109,73 @@ export default function Project() {
 
   const progress = (currentStep / steps.length) * 100;
 
-  const handleNext = (stepData: any) => {
+  const saveToDatabase = async (data: typeof formData, step: number, completed: boolean = false) => {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session) return;
+
+    setSaving(true);
+    try {
+      // Check if project exists
+      const { data: existing } = await supabase
+        .from('projects')
+        .select('id')
+        .eq('user_id', session.user.id)
+        .limit(1)
+        .single();
+
+      if (existing) {
+        await supabase
+          .from('projects')
+          .update({
+            project_data: data,
+            current_step: step,
+            completed,
+          })
+          .eq('id', existing.id);
+      } else {
+        await supabase
+          .from('projects')
+          .insert({
+            user_id: session.user.id,
+            project_data: data,
+            current_step: step,
+            completed,
+          });
+      }
+
+      // Create notification if project completed
+      if (completed) {
+        await supabase.from('notifications').insert({
+          user_id: session.user.id,
+          title: 'Projet complété !',
+          message: `Votre projet "${data.projectIdea.name}" a été enregistré avec succès.`,
+          type: 'success',
+        });
+      }
+    } catch (error) {
+      console.error('Error saving project:', error);
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleNext = async (stepData: any) => {
     const stepKey = ['personalInfo', 'projectIdea', 'targetMarket', 'resources'][currentStep - 1];
-    setFormData((prev) => ({ ...prev, [stepKey]: stepData }));
+    const newFormData = { ...formData, [stepKey]: stepData };
+    setFormData(newFormData);
     
     if (currentStep < steps.length) {
       setCurrentStep(currentStep + 1);
+      await saveToDatabase(newFormData, currentStep + 1);
     } else {
+      await saveToDatabase(newFormData, currentStep, true);
       toast.success('Projet enregistré avec succès !');
     }
+  };
+
+  const handleExportPdf = () => {
+    exportProjectToPdf(formData);
+    toast.success('PDF téléchargé avec succès !');
   };
 
   const handleBack = () => {
@@ -180,6 +263,9 @@ export default function Project() {
             data={formData.resources}
             onNext={handleNext}
             onBack={handleBack}
+            onExportPdf={handleExportPdf}
+            formData={formData}
+            saving={saving}
           />
         )}
       </motion.div>
@@ -390,11 +476,29 @@ function TargetMarketStep({ data, onNext, onBack }: { data: any; onNext: (data: 
   );
 }
 
-function ResourcesStep({ data, onNext, onBack }: { data: any; onNext: (data: any) => void; onBack: () => void }) {
+function ResourcesStep({ 
+  data, 
+  onNext, 
+  onBack, 
+  onExportPdf,
+  formData,
+  saving
+}: { 
+  data: any; 
+  onNext: (data: any) => void; 
+  onBack: () => void;
+  onExportPdf: () => void;
+  formData: any;
+  saving: boolean;
+}) {
   const form = useForm({
     resolver: zodResolver(resourcesSchema),
     defaultValues: data,
   });
+
+  const isProjectComplete = formData.personalInfo.firstName && 
+    formData.projectIdea.name && 
+    formData.targetMarket.targetClients;
 
   return (
     <form onSubmit={form.handleSubmit(onNext)} className="space-y-6">
@@ -437,16 +541,22 @@ function ResourcesStep({ data, onNext, onBack }: { data: any; onNext: (data: any
           <ArrowLeft size={18} />
           Retour
         </Button>
-        <Button type="submit" variant="hero">
-          <Save size={18} />
+        <Button type="submit" variant="hero" disabled={saving}>
+          {saving ? <Loader2 size={18} className="animate-spin" /> : <Save size={18} />}
           Enregistrer le projet
         </Button>
       </div>
 
       <div className="pt-4 border-t border-border">
-        <Button type="button" variant="outline" className="w-full" disabled>
+        <Button 
+          type="button" 
+          variant="outline" 
+          className="w-full" 
+          onClick={onExportPdf}
+          disabled={!isProjectComplete}
+        >
           <Download size={18} />
-          Exporter en PDF (bientôt disponible)
+          {isProjectComplete ? 'Exporter en PDF' : 'Complétez le projet pour exporter'}
         </Button>
       </div>
     </form>

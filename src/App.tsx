@@ -12,6 +12,7 @@ import AdminSteps from "./pages/AdminSteps";
 import Resources from "./pages/Resources";
 import BusinessPlan from "./pages/BusinessPlan";
 import Calendar from "./pages/Calendar";
+import Auth from "./pages/Auth";
 import { DashboardLayout } from "./components/layout/DashboardLayout";
 import NotFound from "./pages/NotFound";
 
@@ -25,6 +26,7 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/auth" element={<Auth />} />
           <Route path="/dashboard" element={<DashboardLayout />}>
             <Route index element={<Dashboard />} />
             <Route path="project" element={<Project />} />
