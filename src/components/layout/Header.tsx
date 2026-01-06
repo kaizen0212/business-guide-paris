@@ -7,7 +7,8 @@ import logo from '@/assets/logo-dos.png';
 const navigation = [
   { name: 'Accueil', href: '/' },
   { name: 'Services', href: '/#services' },
-  { name: 'À propos', href: '/#about' },
+  { name: 'Quiz Statut', href: '/quiz-statut' },
+  { name: 'Simulateur', href: '/simulateur-charges' },
   { name: 'FAQ', href: '/#faq' },
 ];
 

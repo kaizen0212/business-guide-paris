@@ -15,6 +15,11 @@ import Calendar from "./pages/Calendar";
 import Auth from "./pages/Auth";
 import { DashboardLayout } from "./components/layout/DashboardLayout";
 import NotFound from "./pages/NotFound";
+import MentionsLegales from "./pages/MentionsLegales";
+import PolitiqueConfidentialite from "./pages/PolitiqueConfidentialite";
+import CGU from "./pages/CGU";
+import QuizStatut from "./pages/QuizStatut";
+import SimulateurCharges from "./pages/SimulateurCharges";
 
 const queryClient = new QueryClient();
 
@@ -27,6 +32,11 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/auth" element={<Auth />} />
+          <Route path="/quiz-statut" element={<QuizStatut />} />
+          <Route path="/simulateur-charges" element={<SimulateurCharges />} />
+          <Route path="/mentions-legales" element={<MentionsLegales />} />
+          <Route path="/politique-confidentialite" element={<PolitiqueConfidentialite />} />
+          <Route path="/cgu" element={<CGU />} />
           <Route path="/dashboard" element={<DashboardLayout />}>
             <Route index element={<Dashboard />} />
             <Route path="project" element={<Project />} />
