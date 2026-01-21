@@ -2,6 +2,7 @@ import { Outlet, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { DashboardSidebar } from './DashboardSidebar';
 import { Search, User, LogOut } from 'lucide-react';
+import logoDos from '@/assets/logo-dos.png';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
@@ -79,6 +80,7 @@ export function DashboardLayout() {
         <header className="sticky top-0 z-30 bg-background/80 backdrop-blur-md border-b border-border">
           <div className="flex items-center justify-between px-6 py-4">
             <div className="flex items-center gap-4 flex-1 max-w-md">
+              <img src={logoDos} alt="DOS" className="h-8 w-auto" />
               <div className="relative flex-1">
                 <Search size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
                 <Input
