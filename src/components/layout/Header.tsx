@@ -9,7 +9,6 @@ const navigation = [
   { name: 'Services', href: '/#services' },
   { name: 'Quiz Statut', href: '/quiz-statut' },
   { name: 'Simulateur', href: '/simulateur-charges' },
-  { name: 'FAQ', href: '/#faq' },
 ];
 
 export function Header() {

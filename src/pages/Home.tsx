@@ -4,13 +4,7 @@ import { Button } from '@/components/ui/button';
 import { ArrowRight, FileText, Scale, Wallet, Users, Star, CheckCircle } from 'lucide-react';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
-import { faqs, testimonials } from '@/data/mockData';
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@/components/ui/accordion';
+import { testimonials } from '@/data/mockData';
 import stephanieImage from '@/assets/stephanie-djegou.jpeg';
 
 const services = [
@@ -305,49 +299,6 @@ export default function Home() {
                 </div>
               </motion.div>
             ))}
-          </motion.div>
-        </div>
-      </section>
-
-      {/* FAQ Section */}
-      <section id="faq" className="section-padding bg-background">
-        <div className="container-elegant max-w-3xl">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-            className="text-center mb-16"
-          >
-            <motion.span variants={fadeUp} className="text-accent font-medium text-sm uppercase tracking-wider">
-              FAQ
-            </motion.span>
-            <motion.h2 variants={fadeUp} className="text-3xl md:text-4xl font-serif mt-4">
-              Questions fréquentes
-            </motion.h2>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
-            <Accordion type="single" collapsible className="space-y-4">
-              {faqs.map((faq) => (
-                <AccordionItem
-                  key={faq.id}
-                  value={faq.id}
-                  className="card-elegant px-6 border-none"
-                >
-                  <AccordionTrigger className="text-left font-serif text-lg hover:no-underline">
-                    {faq.question}
-                  </AccordionTrigger>
-                  <AccordionContent className="text-muted-foreground leading-relaxed">
-                    {faq.answer}
-                  </AccordionContent>
-                </AccordionItem>
-              ))}
-            </Accordion>
           </motion.div>
         </div>
       </section>

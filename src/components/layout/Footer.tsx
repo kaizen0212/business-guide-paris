@@ -12,7 +12,6 @@ const footerLinks = {
   resources: [
     { name: 'Guides', href: '/dashboard/resources' },
     { name: 'Templates', href: '/dashboard/resources' },
-    { name: 'FAQ', href: '/#faq' },
     { name: 'Blog', href: '#' },
   ],
   legal: [
