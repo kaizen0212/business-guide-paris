@@ -20,6 +20,7 @@ import PolitiqueConfidentialite from "./pages/PolitiqueConfidentialite";
 import CGU from "./pages/CGU";
 import QuizStatut from "./pages/QuizStatut";
 import SimulateurCharges from "./pages/SimulateurCharges";
+import AdminDashboard from "./pages/AdminDashboard";
 
 const queryClient = new QueryClient();
 
@@ -46,6 +47,7 @@ const App = () => (
             <Route path="financing" element={<Financing />} />
             <Route path="resources" element={<Resources />} />
             <Route path="calendar" element={<Calendar />} />
+            <Route path="admin" element={<AdminDashboard />} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
